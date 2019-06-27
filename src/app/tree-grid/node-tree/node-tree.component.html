@@ -1,0 +1,4 @@
+<ng-container *ngFor="let node of nodes">
+  <app-row-grid [node]="node"></app-row-grid>
+  <app-node-tree [ngClass]="{'isOpen': node?.isOpened}" [nodes]="node?.child" *ngIf="node?.isOpened"></app-node-tree>
+</ng-container>
