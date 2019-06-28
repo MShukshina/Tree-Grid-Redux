@@ -1,8 +1,8 @@
 export interface INode {
+  parent: string;
   name: string;
-  level: number;
   nodeId: string;
   url: string;
-  parent: string;
-  child: INode[];
+  level: number;
+  child: INode [];
 }

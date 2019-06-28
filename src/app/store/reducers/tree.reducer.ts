@@ -1,6 +1,5 @@
-import { ActionReducerMap } from '@ngrx/store';
-
-import { ITreeState } from '../state/tree.state';
+import {ActionReducerMap} from '@ngrx/store';
+import {ITreeState} from '../state/tree.state';
 import {nodeReducers} from './node.reducers';
 
 

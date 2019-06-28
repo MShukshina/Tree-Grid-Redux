@@ -1,0 +1,8 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Node_id</th>
+    <th>URL</th>
+  </tr>
+  <app-node-tree [nodes]="nodes$ | async" (openOrCloseChild)="openOrCloseChildren($event)"></app-node-tree>
+</table>

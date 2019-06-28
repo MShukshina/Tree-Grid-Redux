@@ -1,8 +1,8 @@
 <tr>
   <td>
     <div class="column-name" [ngStyle]="{'margin':'0px 5px 0px '+ node?.level*20+'px'}">
-      <button *ngIf="node?.level == 1 || node?.level == 2">
-        {{node?.isOpened ? '-' : '+'}}
+      <button (openChild)="openOrCloseChildren(node)" *ngIf="node?.level == 1 || node?.level == 2">
+        {{node?.isOpend ? '-' : '+'}}
       </button>
       {{node?.name}}
     </div>

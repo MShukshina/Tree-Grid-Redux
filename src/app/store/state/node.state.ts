@@ -1,13 +1,13 @@
-import {INode} from '../../node';
+import {INode} from '../../models/node.interface';
 
 export interface INodeState {
   nodes: INode[];
   loadedNode: boolean;
-  selectedNode: INode;
+  isOpened: boolean;
 }
 
 export const initialNodeState: INodeState = {
-  nodes: [],
+  nodes: null,
   loadedNode: false,
-  selectedNode: null
+  isOpened: false
 };

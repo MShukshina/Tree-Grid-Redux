@@ -7,10 +7,37 @@ export const nodeReducers = (
   action: NodeActions
 ): INodeState => {
   switch (action.type) {
-    case ENodeActions.GetNodesSuccess: {
+    case ENodeActions.GetUsersSuccess: {
       return {
         ...state,
+        loadedNode: action.isLoaded,
         nodes: action.payload
+      };
+    }
+    case ENodeActions.GetRepositoriesSuccess: {
+      return {
+        ...state,
+        loadedNode: action.isLoaded,
+        nodes: action.payload
+      };
+    }
+    case ENodeActions.GetCommitsSuccess: {
+      return {
+        ...state,
+        loadedNode: action.isLoaded,
+        nodes: action.payload
+      };
+    }
+    case ENodeActions.OpenedChild: {
+      return {
+        ...state,
+        isOpened: action.isOpen
+      };
+    }
+    case ENodeActions.AddChild: {
+      return {
+        // изманить у определенного node детей
+        ...state
       };
     }
     default:

@@ -6,7 +6,7 @@ import {catchError, map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class GithabService {
+export class GitHabService {
 
   constructor(private http: HttpClient) { }
 
@@ -21,10 +21,10 @@ export class GithabService {
         })));
   }
 
-  getGitHubRepositories(userName: string, countRepositoriesItems: number) {
-    return this.http.get(`https://api.github.com/users/${userName}/repos?q=a&per_page=${countRepositoriesItems}&page=1`)
+  getGitHubRepositories(/*userName: string, countRepositoriesItems: number*/) {
+    return this.http.get(`https://api.github.com/users/A/repos?q=a&per_page=5&page=1`)
       .pipe(map((rep: any) => rep.map((repos: any) => ({
-          parent: userName, name: repos.name, nodeId: repos.node_id, url: repos.html_url, level: 2, child: []
+          parent: 'A', name: repos.name, nodeId: repos.node_id, url: repos.html_url, level: 2, child: []
         })),
         catchError((error) => {
           console.error(error.message);
@@ -32,8 +32,8 @@ export class GithabService {
         })));
   }
 
-  getGitHubUsers(countUserItems: number) {
-    return this.http.get(`https://api.github.com/search/users?q=a&per_page=${countUserItems}&page=1`)
+  getGitHubUsers(/*countUserItems: number*/) {
+    return this.http.get(`https://api.github.com/search/users?q=a&per_page=5&page=1`)
       .pipe(map((us: any) => us.items.map((user: any) => ({
           parent: null, name: user.login, nodeId: user.node_id, url: user.html_url, level: 1, child: []
         })),
