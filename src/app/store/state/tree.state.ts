@@ -1,11 +1,11 @@
-import { INodeState, initialNodeState } from './node.state';
+import { INodesState, initialNodesState } from './nodes.state';
 
 export interface ITreeState {
-  nodes: INodeState;
+  nodes: INodesState;
 }
 
 export const initialTreeState: ITreeState = {
-  nodes: initialNodeState
+  nodes: initialNodesState
 };
 
 export function getInitialState(): ITreeState {

@@ -10,8 +10,8 @@ export class GitHabService {
 
   constructor(private http: HttpClient) { }
 
-  getGitHubCommits(userName: string, reposName: string, countCommitItems: number) {
-    return this.http.get(`https://api.github.com/repos/${userName}/${reposName}/commits?q=a&per_page=${countCommitItems}&page=1`)
+  getGitHubCommits(userName: string, reposName: string /*, countCommitItems: number*/) {
+    return this.http.get(`https://api.github.com/repos/${userName}/${reposName}/commits?q=a&per_page=5&page=1`)
       .pipe(map((rep: any) => rep.map((commit: any) => ({
           parent: reposName, name: commit.commit.message, nodeId: commit.node_id, url: commit.html_url,  level: 3, child: []
         })),
@@ -21,8 +21,8 @@ export class GitHabService {
         })));
   }
 
-  getGitHubRepositories(/*userName: string, countRepositoriesItems: number*/) {
-    return this.http.get(`https://api.github.com/users/A/repos?q=a&per_page=5&page=1`)
+  getGitHubRepositories(userName: string /*, countRepositoriesItems: number*/) {
+    return this.http.get(`https://api.github.com/users/${userName}/repos?q=a&per_page=5&page=1`)
       .pipe(map((rep: any) => rep.map((repos: any) => ({
           parent: 'A', name: repos.name, nodeId: repos.node_id, url: repos.html_url, level: 2, child: []
         })),

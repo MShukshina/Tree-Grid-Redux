@@ -8,16 +8,23 @@ import {INode} from '../../../../models/node.interface';
 })
 export class RowGridComponent implements OnInit {
 
-  @Input() node: INode
-  @Output()  openOrCloseChild: EventEmitter<INode> = new EventEmitter();
+  @Input() node
+  @Output() openOrCloseChild: EventEmitter<INode> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  openOrCloseChildren(node: INode) {
+  openChildren(node) {
     this.openOrCloseChild.emit(node);
+  }
+
+  openOrCloseChildren(node) {
+    if (node.isOpened) {
+      this.openChildren(node);
+    }
+    node.isOpened = !node.isOpened;
   }
 
 }

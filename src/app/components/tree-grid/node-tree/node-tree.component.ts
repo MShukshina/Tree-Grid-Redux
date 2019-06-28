@@ -8,7 +8,7 @@ import {INode} from '../../../models/node.interface';
 })
 export class NodeTreeComponent implements OnInit {
 
-  @Input() nodes: INode[];
+  @Input() nodes;
   @Output()  openOrCloseChild: EventEmitter<INode> = new EventEmitter();
 
   constructor() { }

@@ -11,7 +11,6 @@ export enum ENodeActions {
   GetRepositoriesSuccess = '[Nodes] Get Repositories Success',
   GetCommits = '[Nodes] Get Commits',
   GetCommitsSuccess = '[Nodes] Get Commits Success',
-  OpenedChild = '[Nodes] Opened Child',
   AddChild = '[Nodes] Add Child',
 
 }
@@ -27,6 +26,7 @@ export class GetUsersSuccess implements Action {
 
 export class GetRepositories implements Action {
   public readonly type = ENodeActions.GetRepositories;
+  constructor(public node: INode) {}
 }
 
 export class GetRepositoriesSuccess implements Action {
@@ -36,6 +36,7 @@ export class GetRepositoriesSuccess implements Action {
 
 export class GetCommits implements Action {
   public readonly type = ENodeActions.GetCommits;
+  constructor(public node: INode) {}
 }
 
 export class GetCommitsSuccess implements Action {
@@ -43,15 +44,15 @@ export class GetCommitsSuccess implements Action {
   constructor(public payload: INode[], public isLoaded: boolean) {}
 }
 
-
-export class OpenedChild implements Action {
-  public readonly type = ENodeActions.OpenedChild;
-  constructor(public isOpen: boolean) {}
-}
-
 export class AddChild implements Action {
   public readonly type = ENodeActions.AddChild;
-  constructor(public child: INode[]) {}
+  constructor(public child: INode[], public node: INode) {}
 }
 
-export type NodeActions = GetUsers | GetUsersSuccess | GetRepositories | GetRepositoriesSuccess | GetCommits | GetCommitsSuccess | OpenedChild | AddChild;
+export type NodeActions = GetUsers |
+  GetUsersSuccess |
+  GetRepositories |
+  GetRepositoriesSuccess |
+  GetCommits |
+  GetCommitsSuccess |
+  AddChild;

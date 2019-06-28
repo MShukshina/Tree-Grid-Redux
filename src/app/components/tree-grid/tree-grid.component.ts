@@ -13,6 +13,8 @@ import {INode} from '../../models/node.interface';
 export class TreeGridComponent implements OnInit {
 
   nodes$ = this.store.pipe(select(selectNodesList));
+/*  repositories$ = this.store.pipe(select(selectNodesList));
+  commits$ = this.store.pipe(select(selectNodesList));*/
 
   constructor(private store: Store<ITreeState>) {
   }
@@ -23,9 +25,9 @@ export class TreeGridComponent implements OnInit {
 
   openOrCloseChildren(node: INode) {
       if (node.level === 1) {
-        this.store.dispatch( new GetRepositories());
+        this.store.dispatch( new GetRepositories(node));
       } else {
-        this.store.dispatch( new GetCommits());
+        this.store.dispatch( new GetCommits(node));
       }
   }
 

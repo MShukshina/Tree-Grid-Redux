@@ -38,8 +38,3 @@ td {
   justify-content: flex-start;
   word-break: break-all;
 }
-
-app-row-grid.isOpen {
-  display: block;
-}
-
