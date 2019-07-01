@@ -13,7 +13,7 @@ import {INodeState} from '../state/node.satate';
 
 @Injectable()
 export class NodeEffects {
-  @Effect() getNodes$ = createEffect(() => this.actions$.pipe(
+  getNodes$ = createEffect(() => this.actions$.pipe(
     ofType<GetUsers>(ENodeActions.GetUsers),
     switchMap(() => this.nodeService.getGitHubUsers()),
     switchMap((nodes: INode[]) => of(new GetUsersSuccess(nodes, true))),
@@ -21,7 +21,7 @@ export class NodeEffects {
     )
   );
 
-  @Effect() getRepositories$ = createEffect(() => this.actions$.pipe(
+  getRepositories$ = createEffect(() => this.actions$.pipe(
     ofType<GetRepositories>(ENodeActions.GetRepositories),
     pluck('node'),
     switchMap((node: INode) => {
@@ -37,7 +37,7 @@ export class NodeEffects {
     )
   );
 
-  @Effect() openedCommits$ = createEffect(() => this.actions$.pipe(
+  openedCommits$ = createEffect(() => this.actions$.pipe(
     ofType<GetCommits>(ENodeActions.GetCommits),
     pluck('node'),
     switchMap((node: INode) => {

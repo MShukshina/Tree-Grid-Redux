@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
 import {selectNodesList} from '../../store/selectors/node.selectors';
 import {GetCommits, GetRepositories, GetUsers} from '../../store/actions/node.actions';
 import {ITreeState} from '../../store/state/tree.state';
@@ -25,7 +25,6 @@ export class TreeGridComponent implements OnInit {
   openOrCloseChildren(node: INode) {
       if (node.level === 1) {
         this.store.dispatch( new GetRepositories(node));
-        console.log(this.nodes$);
       } else {
         this.store.dispatch( new GetCommits(node));
       }
