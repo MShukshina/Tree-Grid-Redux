@@ -21,7 +21,7 @@ export class RowGridComponent implements OnInit {
   }
 
   openOrCloseChildren(node) {
-    if (node.isOpened) {
+    if (!node.isOpened) {
       this.openChildren(node);
     }
     node.isOpened = !node.isOpened;

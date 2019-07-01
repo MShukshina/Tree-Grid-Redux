@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GithabService } from './githab.service';
+import { GitHabService } from './githab.service';
 
-describe('GithabService', () => {
+describe('GitHabService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GithabService = TestBed.get(GithabService);
+    const service: GitHabService = TestBed.get(GitHabService);
     expect(service).toBeTruthy();
   });
 });

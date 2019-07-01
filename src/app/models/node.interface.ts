@@ -1,4 +1,5 @@
 export interface INode {
+  id: number;
   parent: string;
   name: string;
   nodeId: string;
