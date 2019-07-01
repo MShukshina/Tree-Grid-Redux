@@ -1,11 +1,16 @@
 import {INode} from '../../models/node.interface';
+import {initialNodeState, INodeState} from './node.satate';
 
 export interface INodesState {
-  nodes: INode[];
+  nodes: {[id: number]: INode};
+  nodesState: INodeState;
   loadedNode: boolean;
+  countNodes: number;
 }
 
 export const initialNodesState: INodesState = {
   nodes: null,
-  loadedNode: false
+  nodesState: initialNodeState,
+  loadedNode: false,
+  countNodes: 0
 };

@@ -1,34 +1,56 @@
 import { ENodeActions } from '../actions/node.actions';
 import { NodeActions } from '../actions/node.actions';
 import { initialNodesState, INodesState } from '../state/nodes.state';
+import {initialNodeState, INodeState} from '../state/node.satate';
 
-export const nodeReducers = (
-  state = initialNodesState,
-  action: NodeActions
-): INodesState => {
+export const nodesReducers = (state = initialNodesState, action: NodeActions): INodesState => {
   switch (action.type) {
     case ENodeActions.GetUsersSuccess: {
       return {
+        ...state,
         loadedNode: action.isLoaded,
-        nodes: action.payload
+        nodes: action.payload,
+        countNodes: action.payload.length,
       };
     }
-    case ENodeActions.GetRepositoriesSuccess: {
+    case ENodeActions.UsersGetError: {
       return {
-        loadedNode: action.isLoaded,
-        nodes: action.payload
+        ...state,
+        loadedNode: false,
+        nodes: []
       };
     }
-    case ENodeActions.GetCommitsSuccess: {
+    case ENodeActions.RepositoriesGetError: {
       return {
-        loadedNode: action.isLoaded,
-        nodes: action.payload
+        ...state,
+        loadedNode: false,
+        nodes: []
+      };
+    }
+    case ENodeActions.CommitsGetError: {
+      return {
+        ...state,
+        loadedNode: false,
+        nodes: []
       };
     }
     case ENodeActions.AddChild: {
+      action.node.child = action.child;
       return {
         ...state,
-          nodes: action.child
+      };
+    }
+    default:
+      return state;
+  }
+};
+
+export const nodeReducers = (state = initialNodeState, action: NodeActions): INodeState => {
+  switch (action.type) {
+    case ENodeActions.GetChild: {
+      return {
+        ...state,
+        child: action.child,
       };
     }
     default:

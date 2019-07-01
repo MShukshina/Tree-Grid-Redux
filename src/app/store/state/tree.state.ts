@@ -8,6 +8,3 @@ export const initialTreeState: ITreeState = {
   nodes: initialNodesState
 };
 
-export function getInitialState(): ITreeState {
-  return initialTreeState;
-}

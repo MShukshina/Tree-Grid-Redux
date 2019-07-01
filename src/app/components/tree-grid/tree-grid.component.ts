@@ -4,6 +4,7 @@ import {selectNodesList} from '../../store/selectors/node.selectors';
 import {GetCommits, GetRepositories, GetUsers} from '../../store/actions/node.actions';
 import {ITreeState} from '../../store/state/tree.state';
 import {INode} from '../../models/node.interface';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-tree-grid',
@@ -12,9 +13,7 @@ import {INode} from '../../models/node.interface';
 })
 export class TreeGridComponent implements OnInit {
 
-  nodes$ = this.store.pipe(select(selectNodesList));
-/*  repositories$ = this.store.pipe(select(selectNodesList));
-  commits$ = this.store.pipe(select(selectNodesList));*/
+  nodes$: Observable<{[id: number]: INode}> = this.store.pipe(select(selectNodesList));
 
   constructor(private store: Store<ITreeState>) {
   }
@@ -26,6 +25,7 @@ export class TreeGridComponent implements OnInit {
   openOrCloseChildren(node: INode) {
       if (node.level === 1) {
         this.store.dispatch( new GetRepositories(node));
+        console.log(this.nodes$);
       } else {
         this.store.dispatch( new GetCommits(node));
       }

@@ -7,12 +7,13 @@ export const GetNodesSuccess = createAction('[Node] Get Node Success', props<{no
 export enum ENodeActions {
   GetUsers = '[Nodes] Get Users',
   GetUsersSuccess = '[Nodes] Get Users Success',
+  UsersGetError = '[Nodes] Users Get Error',
   GetRepositories = '[Nodes] Get Repositories',
-  GetRepositoriesSuccess = '[Nodes] Get Repositories Success',
+  RepositoriesGetError = '[Nodes] Repositories Get Error',
   GetCommits = '[Nodes] Get Commits',
-  GetCommitsSuccess = '[Nodes] Get Commits Success',
+  CommitsGetError = '[Nodes] Commits Get Error',
+  GetChild = '[Nodes] Get Child',
   AddChild = '[Nodes] Add Child',
-
 }
 
 export class GetUsers implements Action {
@@ -24,14 +25,17 @@ export class GetUsersSuccess implements Action {
   constructor(public payload: INode[], public isLoaded: boolean) {}
 }
 
+export class UsersGetError implements Action {
+  public readonly type = ENodeActions.UsersGetError;
+}
+
 export class GetRepositories implements Action {
   public readonly type = ENodeActions.GetRepositories;
   constructor(public node: INode) {}
 }
 
-export class GetRepositoriesSuccess implements Action {
-  public readonly type = ENodeActions.GetRepositoriesSuccess;
-  constructor(public payload: INode[], public isLoaded: boolean) {}
+export class RepositoriesGetError implements Action {
+  public readonly type = ENodeActions.RepositoriesGetError;
 }
 
 export class GetCommits implements Action {
@@ -39,9 +43,13 @@ export class GetCommits implements Action {
   constructor(public node: INode) {}
 }
 
-export class GetCommitsSuccess implements Action {
-  public readonly type = ENodeActions.GetCommitsSuccess;
-  constructor(public payload: INode[], public isLoaded: boolean) {}
+export class CommitsGetError implements Action {
+  public readonly type = ENodeActions.CommitsGetError;
+}
+
+export class GetChild implements Action {
+  public readonly type = ENodeActions.GetChild;
+  constructor(public child: INode[]) {}
 }
 
 export class AddChild implements Action {
@@ -52,7 +60,9 @@ export class AddChild implements Action {
 export type NodeActions = GetUsers |
   GetUsersSuccess |
   GetRepositories |
-  GetRepositoriesSuccess |
+  UsersGetError |
+  RepositoriesGetError |
   GetCommits |
-  GetCommitsSuccess |
+  CommitsGetError |
+  GetChild |
   AddChild;
