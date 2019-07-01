@@ -11,6 +11,8 @@ import { NodeEffects } from './store/effects/node.effects';
 import {HttpClientModule} from '@angular/common/http';
 import {GitHabService} from './services/githab.service';
 import {treeReducers} from './store/reducers/tree.reducer';
+import {environment} from '../environments/environment';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import {treeReducers} from './store/reducers/tree.reducer';
     HttpClientModule,
     StoreModule.forRoot(treeReducers),
     EffectsModule.forRoot([NodeEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [GitHabService],
   bootstrap: [AppComponent]
