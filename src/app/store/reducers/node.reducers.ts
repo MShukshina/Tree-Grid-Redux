@@ -1,56 +1,55 @@
 import { ENodeActions } from '../actions/node.actions';
 import { NodeActions } from '../actions/node.actions';
-import { initialNodesState, INodesState } from '../state/nodes.state';
-import {initialNodeState, INodeState} from '../state/node.satate';
+import {initialUsersState, IUserState} from '../state/user.state';
 
-export const nodesReducers = (state = initialNodesState, action: NodeActions): INodesState => {
+export const nodesReducers = (state = initialUsersState, action: NodeActions): IUserState => {
   switch (action.type) {
     case ENodeActions.GetUsersSuccess: {
       return {
         ...state,
-        loadedNode: action.isLoaded,
-        nodes: action.payload,
-        countNodes: action.payload.length,
+        nodes: action.payload
       };
     }
     case ENodeActions.UsersGetError: {
       return {
         ...state,
-        loadedNode: false,
         nodes: []
       };
     }
     case ENodeActions.RepositoriesGetError: {
       return {
         ...state,
-        loadedNode: false,
         nodes: []
       };
     }
     case ENodeActions.CommitsGetError: {
       return {
         ...state,
-        loadedNode: false,
         nodes: []
       };
     }
-    case ENodeActions.AddChild: {
-      action.node.child = action.child;
+    case ENodeActions.AddChildUsers: {
       return {
         ...state,
+        nodes: {
+          ...state.nodes,
+          [action.node.id]: {
+            ...action.node,
+            child: action.child
+          }
+        }
       };
     }
-    default:
-      return state;
-  }
-};
-
-export const nodeReducers = (state = initialNodeState, action: NodeActions): INodeState => {
-  switch (action.type) {
-    case ENodeActions.GetChild: {
+    case ENodeActions.AddChildRepositories: {
       return {
         ...state,
-        child: action.child,
+        nodes: {
+          ...state.nodes,
+          [action.node.id]: {
+            ...action.node,
+            child: []
+          }
+        }
       };
     }
     default:

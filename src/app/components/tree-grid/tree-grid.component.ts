@@ -25,6 +25,7 @@ export class TreeGridComponent implements OnInit {
   openOrCloseChildren(node: INode) {
       if (node.level === 1) {
         this.store.dispatch( new GetRepositories(node));
+        console.log(this.nodes$);
       } else {
         this.store.dispatch( new GetCommits(node));
       }
