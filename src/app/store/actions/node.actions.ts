@@ -1,9 +1,6 @@
 import {Action, createAction, props} from '@ngrx/store';
 import { INode } from '../../models/node.interface';
 
-/*export const GetNodes = createAction('Node] Get Node');
-export const GetNodesSuccess = createAction('[Node] Get Node Success', props<{nodes: INode[], loadedNode: boolean}>());*/
-
 export enum ENodeActions {
   GetUsers = '[Nodes] Get Users',
   GetUsersSuccess = '[Nodes] Get Users Success',
@@ -12,8 +9,8 @@ export enum ENodeActions {
   RepositoriesGetError = '[Nodes] Repositories Get Error',
   GetCommits = '[Nodes] Get Commits',
   CommitsGetError = '[Nodes] Commits Get Error',
-  GetChild = '[Nodes] Get Child',
-  AddChild = '[Nodes] Add Child',
+  AddChildUsers = '[Nodes] Add Child Users',
+  AddChildRepositories = '[Nodes] Add Child Repositories',
 }
 
 export class GetUsers implements Action {
@@ -22,7 +19,7 @@ export class GetUsers implements Action {
 
 export class GetUsersSuccess implements Action {
   public readonly type = ENodeActions.GetUsersSuccess;
-  constructor(public payload: INode[], public isLoaded: boolean) {}
+  constructor(public payload: INode[]) {}
 }
 
 export class UsersGetError implements Action {
@@ -47,13 +44,13 @@ export class CommitsGetError implements Action {
   public readonly type = ENodeActions.CommitsGetError;
 }
 
-export class GetChild implements Action {
-  public readonly type = ENodeActions.GetChild;
-  constructor(public child: INode[]) {}
+export class AddChildUsers implements Action {
+  public readonly type = ENodeActions.AddChildUsers;
+  constructor(public child: INode[], public node: INode) {}
 }
 
-export class AddChild implements Action {
-  public readonly type = ENodeActions.AddChild;
+export class AddChildRepositories implements Action {
+  public readonly type = ENodeActions.AddChildRepositories;
   constructor(public child: INode[], public node: INode) {}
 }
 
@@ -64,5 +61,5 @@ export type NodeActions = GetUsers |
   RepositoriesGetError |
   GetCommits |
   CommitsGetError |
-  GetChild |
-  AddChild;
+  AddChildUsers |
+  AddChildRepositories;

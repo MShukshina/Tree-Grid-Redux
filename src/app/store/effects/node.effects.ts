@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Effect, ofType, Actions, createEffect} from '@ngrx/effects';
-import { ENodeActions, GetCommits, GetRepositories,
-  GetUsers,  GetUsersSuccess, UsersGetError,
-  AddChild, RepositoriesGetError, CommitsGetError
+import {
+  ENodeActions, GetCommits, GetRepositories,
+  GetUsers, GetUsersSuccess, UsersGetError,
+  AddChildUsers, RepositoriesGetError, CommitsGetError, AddChildRepositories
 } from '../actions/node.actions';
 import {catchError, map, pluck, switchMap} from 'rxjs/operators';
 import {GitHabService} from '../../services/githab.service';
@@ -16,7 +17,7 @@ export class NodeEffects {
   getNodes$ = createEffect(() => this.actions$.pipe(
     ofType<GetUsers>(ENodeActions.GetUsers),
     switchMap(() => this.nodeService.getGitHubUsers()),
-    switchMap((nodes: INode[]) => of(new GetUsersSuccess(nodes, true))),
+    switchMap((nodes: INode[]) => of(new GetUsersSuccess(nodes))),
     catchError(() => of(new UsersGetError()))
     )
   );
@@ -32,7 +33,7 @@ export class NodeEffects {
         }))
       );
     }),
-    switchMap( (result: {child: INode[], node: INodeState}) => of(new AddChild(result.child, result.node))),
+    switchMap( (result: {child: INode[], node: INodeState}) => of(new AddChildUsers(result.child, result.node))),
     catchError(() => of(new RepositoriesGetError())),
     )
   );
@@ -48,7 +49,7 @@ export class NodeEffects {
           }))
         );
       }),
-    switchMap((result: {child: INode[], node: INodeState}) => of(new AddChild(result.child, result.node))),
+    switchMap((result: {child: INode[], node: INodeState}) => of(new AddChildRepositories(result.child, result.node))),
     catchError(() => of(new CommitsGetError()))
     )
   );
