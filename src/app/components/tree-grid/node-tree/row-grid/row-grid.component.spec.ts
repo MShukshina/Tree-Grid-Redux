@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RowGridComponent } from './row-grid.component';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('RowGridComponent', () => {
   let component: RowGridComponent;
@@ -8,7 +9,8 @@ describe('RowGridComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RowGridComponent ]
+      declarations: [ RowGridComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));
@@ -19,7 +21,7 @@ describe('RowGridComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create row-grid', () => {
     expect(component).toBeTruthy();
   });
 });

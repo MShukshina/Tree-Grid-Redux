@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NodeTreeComponent } from './node-tree.component';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('NodeTreeComponent', () => {
   let component: NodeTreeComponent;
@@ -8,7 +9,8 @@ describe('NodeTreeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NodeTreeComponent ]
+      declarations: [ NodeTreeComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));
@@ -19,7 +21,7 @@ describe('NodeTreeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create node-tree', () => {
     expect(component).toBeTruthy();
   });
 });
