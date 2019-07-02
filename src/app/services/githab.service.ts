@@ -17,7 +17,7 @@ export class GitHabService {
   getGitHubUsers() {
     return this.http.get(`https://api.github.com/search/users?q=a&per_page=5&page=1`)
       .pipe(map((us: any) => us.items.map((user: any) => ({ id: ++this.counter,
-          parent: null, name: user.login, nodeId: user.node_id, url: user.html_url, level: 1, child: []
+          parent: null,  parent_id: 0, name: user.login, nodeId: user.node_id, url: user.html_url, level: 1, child: []
         })),
         catchError((error) => {
           console.error(error.message);
@@ -25,10 +25,10 @@ export class GitHabService {
         })));
   }
 
-  getGitHubRepositories(userName: string) {
+  getGitHubRepositories(userName: string, parentId: number) {
     return this.http.get(`https://api.github.com/users/${userName}/repos?q=a&per_page=5&page=1`)
       .pipe(map((rep: any) => rep.map((repos: any) => ({ id: ++this.counter,
-          parent: userName, name: repos.name, nodeId: repos.node_id, url: repos.html_url, level: 2, child: []
+          parent: userName, parent_id: parentId, name: repos.name, nodeId: repos.node_id, url: repos.html_url, level: 2, child: []
         })),
         catchError((error) => {
           console.error(error.message);
@@ -36,10 +36,11 @@ export class GitHabService {
         })));
   }
 
-  getGitHubCommits(userName: string, reposName: string) {
+  getGitHubCommits(userName: string, reposName: string, parentId) {
     return this.http.get(`https://api.github.com/repos/${userName}/${reposName}/commits?q=a&per_page=5&page=1`)
       .pipe(map((rep: any) => rep.map((commit: any) => ({ id: this.counter++,
-          parent: reposName, name: commit.commit.message, nodeId: commit.node_id, url: commit.html_url,  level: 3, child: []
+          parent: reposName, parent_id: parentId, name: commit.commit.message, nodeId: commit.node_id,
+          url: commit.html_url,  level: 3, child: []
         })),
         catchError((error) => {
           console.error(error.message);

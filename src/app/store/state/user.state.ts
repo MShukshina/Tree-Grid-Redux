@@ -5,5 +5,5 @@ export interface IUserState {
 }
 
 export const initialUsersState: IUserState = {
-  nodes: null,
+  nodes: [],
 };
