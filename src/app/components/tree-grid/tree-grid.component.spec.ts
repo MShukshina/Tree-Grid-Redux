@@ -36,8 +36,10 @@ describe('TreeGridComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create tree-grid', () => {
-    expect(component).toBeTruthy();
+  describe('TreeGridComponent create', () => {
+    it('should create tree-grid', () => {
+      expect(component).toBeTruthy();
+    });
   });
 
   /*it('should dispatch an action to load data when created', () => {

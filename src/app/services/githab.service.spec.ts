@@ -10,9 +10,11 @@ describe('GitHabService', () => {
     schemas: [ NO_ERRORS_SCHEMA ]
   }));
 
-  it('should be created', () => {
-    const service: GitHabService = TestBed.get(GitHabService);
-    expect(service).toBeTruthy();
+  describe('GitHabService create', () => {
+    it('should be created', () => {
+      const service: GitHabService = TestBed.get(GitHabService);
+      expect(service).toBeTruthy();
+    });
   });
 
 /*  it('should get Users', inject([GitHabService, HttpTestingController], (service: GitHabService, beckend: HttpTestingController) => {

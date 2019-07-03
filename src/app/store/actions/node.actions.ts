@@ -24,6 +24,7 @@ export class GetUsersSuccess implements Action {
 
 export class UsersGetError implements Action {
   public readonly type = ENodeActions.UsersGetError;
+  constructor(public payload: { error: Error }) {}
 }
 
 export class GetRepositories implements Action {
@@ -33,6 +34,7 @@ export class GetRepositories implements Action {
 
 export class RepositoriesGetError implements Action {
   public readonly type = ENodeActions.RepositoriesGetError;
+  constructor(public payload: { error: Error }) {}
 }
 
 export class GetCommits implements Action {
@@ -42,6 +44,7 @@ export class GetCommits implements Action {
 
 export class CommitsGetError implements Action {
   public readonly type = ENodeActions.CommitsGetError;
+  constructor(public payload: { error: Error }) {}
 }
 
 export class AddChildUsers implements Action {

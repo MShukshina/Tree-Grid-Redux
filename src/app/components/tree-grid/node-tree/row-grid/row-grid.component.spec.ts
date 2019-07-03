@@ -21,7 +21,9 @@ describe('RowGridComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create row-grid', () => {
-    expect(component).toBeTruthy();
+  describe('RowGridComponent create', () => {
+    it('should create row-grid', () => {
+      expect(component).toBeTruthy();
+    });
   });
 });

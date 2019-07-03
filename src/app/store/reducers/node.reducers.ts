@@ -2,7 +2,7 @@ import { ENodeActions } from '../actions/node.actions';
 import { NodeActions } from '../actions/node.actions';
 import {initialUsersState, IUserState} from '../state/user.state';
 
-export const nodesReducers = (state = initialUsersState, action): IUserState => {
+export const nodesReducers = (state = initialUsersState, action: NodeActions): IUserState => {
   switch (action.type) {
     case ENodeActions.GetUsersSuccess: {
       return {
@@ -31,25 +31,18 @@ export const nodesReducers = (state = initialUsersState, action): IUserState => 
     case ENodeActions.AddChildUsers: {
       return {
         ...state,
-        nodes: Object.entries({...state.nodes,
+        nodes: [].concat(Object.entries({...state.nodes,
           [action.node.id]: {
             ...action.node,
             child: action.child
           }
-        }).map(([id, value]) => (value))
-      /*{
-          ...state.nodes,
-          [action.node.id]: {
-            ...action.node,
-            child: action.child
-          }
-        }*/
+        }).map(([id, value]) => (value)))
       };
     }
     case ENodeActions.AddChildRepositories: {
       return {
         ...state,
-        nodes: Object.entries({...state.nodes,
+        nodes: [].concat(Object.entries({...state.nodes,
           [action.node.parent_id]: {
             ...state.nodes[action.node.parent_id],
             child: Object.entries({
@@ -60,7 +53,7 @@ export const nodesReducers = (state = initialUsersState, action): IUserState => 
               }
             }).map(([id, value]) => (value))
           }
-        }).map(([id, value]) => (value))
+        }).map(([id, value]) => (value)))
       };
     }
     default:

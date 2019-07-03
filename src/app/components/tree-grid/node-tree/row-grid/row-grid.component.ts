@@ -8,7 +8,7 @@ import {INode} from '../../../../models/node.interface';
 })
 export class RowGridComponent implements OnInit {
 
-  @Input() node
+  @Input() node;
   @Output() openOrCloseChild: EventEmitter<INode> = new EventEmitter();
 
   constructor() { }
