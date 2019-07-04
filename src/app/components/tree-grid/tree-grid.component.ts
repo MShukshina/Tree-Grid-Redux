@@ -13,13 +13,18 @@ import {Observable} from 'rxjs';
 })
 export class TreeGridComponent implements OnInit {
 
-  nodes$: Observable<{[id: number]: INode}> = this.store.pipe(select(selectNodesList));
+  nodes$: Observable<{[id: number]: INode}>;
 
   constructor(private store: Store<ITreeState>) {
   }
 
+  getNodes(): Observable<{[id: number]: INode}> {
+    return this.store.select(selectNodesList);
+  }
+
   ngOnInit() {
     this.store.dispatch( new GetUsers());
+    this.nodes$ = this.getNodes();
   }
 
   openOrCloseChildren(node: INode) {

@@ -42,7 +42,16 @@ describe( 'nodes effects', () => {
 
   describe('Get Nodes', () => {
     it('should return an GetUserSuccess action, with the users, on success', () => {
-      const users: INode[] = [{id: 0, parent: null, parent_id: null, name: 'A', level: 1, nodeId: '', url: '', child: []}];
+      const users: INode[] = [{
+        id: 0,
+        parent: null,
+        parent_id: null,
+        name: 'A',
+        level: 1,
+        nodeId: '',
+        url: '',
+        child: []
+      }];
       const action: GetUsers = new GetUsers();
       const outcome: GetUsersSuccess = new GetUsersSuccess(users);
 
@@ -56,8 +65,26 @@ describe( 'nodes effects', () => {
 
   describe('Get Child', () => {
     it('should return an AddChildUsers action, with the child and node, on success', () => {
-      const child: INode[] = [{id: 6, parent: 'A', parent_id: 0, name: '10links', level: 2, nodeId: '', url: '', child: []}];
-      const node: INode = {id: 0, parent: null, parent_id: null, name: 'A', level: 1, nodeId: '', url: '', child: []};
+      const child: INode[] = [{
+        id: 6,
+        parent: 'A',
+        parent_id: 0,
+        name: '10links',
+        level: 2,
+        nodeId: '',
+        url: '',
+        child: []
+      }];
+      const node: INode = {
+        id: 0,
+        parent: null,
+        parent_id: null,
+        name: 'A',
+        level: 1,
+        nodeId: '',
+        url: '',
+        child: []
+      };
       const action: GetRepositories = new GetRepositories(node);
       const outcome: AddChildUsers = new AddChildUsers(child, node);
 
@@ -69,8 +96,26 @@ describe( 'nodes effects', () => {
     });
 
     it('should return an AddChildRepositories action, with the child and node, on success', () => {
-      const child: INode[] = [{id: 35, parent: '10links', parent_id: 6, name: 'update', level: 3, nodeId: '', url: '', child: []}];
-      const node: INode = {id: 6, parent: 'A', parent_id: 0, name: '10links', level: 2, nodeId: '', url: '', child: []};
+      const child: INode[] = [{
+        id: 35,
+        parent: '10links',
+        parent_id: 6,
+        name: 'update',
+        level: 3,
+        nodeId: '',
+        url: '',
+        child: []
+      }];
+      const node: INode = {
+        id: 6,
+        parent: 'A',
+        parent_id: 0,
+        name: '10links',
+        level: 2,
+        nodeId: '',
+        url: '',
+        child: []
+      };
       const action: GetCommits = new GetCommits(node);
       const outcome: AddChildRepositories = new AddChildRepositories(child, node);
 
