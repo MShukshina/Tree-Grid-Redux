@@ -21,7 +21,7 @@ export class NodeEffects {
     catchError((error) => of(new UsersGetError(error)))
   ));
 
-  getRepositories$: Observable<Action> = createEffect(() => this.actions$.pipe(
+  openedRepositories$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType<GetRepositories>(ENodeActions.GetRepositories),
     pluck('node'),
     switchMap((node: INode) => {

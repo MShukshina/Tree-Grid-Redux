@@ -2,16 +2,16 @@ import {NodeEffects} from './node.effects';
 import {Observable} from 'rxjs';
 import {GitHabService} from '../../services/githab.service';
 import {TestBed} from '@angular/core/testing';
-import {provideMockActions} from '@ngrx/effects/testing';
 import {cold, hot} from 'jasmine-marbles';
-import {GetUsers, GetUsersSuccess} from '../actions/node.actions';
+import {AddChildRepositories, AddChildUsers, GetCommits, GetRepositories, GetUsers, GetUsersSuccess} from '../actions/node.actions';
 import {INode} from '../../models/node.interface';
-
+import {Actions} from '@ngrx/effects';
+import {provideMockActions} from '@ngrx/effects/testing';
 
 describe( 'nodes effects', () => {
   let actions: Observable<any>;
   let effects: NodeEffects;
-  let githubService: GitHabService;
+  let service: jasmine.SpyObj<GitHabService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,15 +20,18 @@ describe( 'nodes effects', () => {
         provideMockActions(() => actions),
         {
           provide: GitHabService,
-          /*nodValue: {
-            getGitHubUsers: jest.fn(),
-          }*/
+          useValue: {
+            getGitHubUsers: jasmine.createSpy(),
+            getGitHubRepositories: jasmine.createSpy(),
+            getGitHubCommits: jasmine.createSpy()
+          }
         }
       ]
     });
 
+    actions = TestBed.get(Actions);
     effects = TestBed.get(NodeEffects);
-    githubService = TestBed.get(GitHabService);
+    service = TestBed.get(GitHabService);
   });
 
   describe('Node Effects create', () => {
@@ -38,19 +41,44 @@ describe( 'nodes effects', () => {
   });
 
   describe('Get Nodes', () => {
-    it('should return an GetUserSuccess action, with the user, on success', () => {
-      const users: INode[] = [];
+    it('should return an GetUserSuccess action, with the users, on success', () => {
+      const users: INode[] = [{id: 0, parent: null, parent_id: null, name: 'A', level: 1, nodeId: '', url: '', child: []}];
       const action: GetUsers = new GetUsers();
       const outcome: GetUsersSuccess = new GetUsersSuccess(users);
 
-      /*const mockFn = jest.fn(scalar => 42 + scalar);*/
+      actions = hot('-a', {a: action});
+      const response = cold('-a|', { a: users });
+      service.getGitHubUsers.and.returnValue(response);
+      const expected = cold('--b', {b: outcome});
+      expect(effects.getNodes$).toBeObservable(expected);
+    });
+  });
+
+  describe('Get Child', () => {
+    it('should return an AddChildUsers action, with the child and node, on success', () => {
+      const child: INode[] = [{id: 6, parent: 'A', parent_id: 0, name: '10links', level: 2, nodeId: '', url: '', child: []}];
+      const node: INode = {id: 0, parent: null, parent_id: null, name: 'A', level: 1, nodeId: '', url: '', child: []};
+      const action: GetRepositories = new GetRepositories(node);
+      const outcome: AddChildUsers = new AddChildUsers(child, node);
 
       actions = hot('-a', {a: action});
-      /*const response = cold('-a|', { a: users });*/
+      const response = cold('-a|', { a: child});
+      service.getGitHubRepositories.and.returnValue(response);
       const expected = cold('--b', {b: outcome});
-      /*githubService.getGitHubUsers = jest.fn(() => response);*/
+      expect(effects.openedRepositories$).toBeObservable(expected);
+    });
 
-      expect(effects.getNodes$).toEqual(expected);
+    it('should return an AddChildRepositories action, with the child and node, on success', () => {
+      const child: INode[] = [{id: 35, parent: '10links', parent_id: 6, name: 'update', level: 3, nodeId: '', url: '', child: []}];
+      const node: INode = {id: 6, parent: 'A', parent_id: 0, name: '10links', level: 2, nodeId: '', url: '', child: []};
+      const action: GetCommits = new GetCommits(node);
+      const outcome: AddChildRepositories = new AddChildRepositories(child, node);
+
+      actions = hot('-a', {a: action});
+      const response = cold('-a|', { a: child});
+      service.getGitHubCommits.and.returnValue(response);
+      const expected = cold('--b', {b: outcome});
+      expect(effects.openedCommits$).toBeObservable(expected);
     });
   });
 });

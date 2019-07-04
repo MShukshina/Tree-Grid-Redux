@@ -26,7 +26,8 @@ describe('node reducers', () => {
 
   describe('[Nodes] Users Get Error', () => {
     it('should throw an error', () => {
-      const action: UsersGetError = new UsersGetError();
+      const error: Error = new Error();
+      const action: UsersGetError = new UsersGetError({error});
       const newState: IUserState = nodesReducers(initialUsersState, action);
       expect(newState).toEqual({
         ...initialUsersState,
@@ -37,7 +38,8 @@ describe('node reducers', () => {
 
   describe('[Nodes] Repositories Get Error', () => {
     it('should throw an error', () => {
-      const action: RepositoriesGetError = new RepositoriesGetError();
+      const error: Error = new Error();
+      const action: RepositoriesGetError = new RepositoriesGetError({error});
       const newState: IUserState = nodesReducers(initialUsersState, action);
       expect(newState).toEqual({
         ...initialUsersState,
@@ -48,7 +50,8 @@ describe('node reducers', () => {
 
   describe('[Nodes] Commits Get Error', () => {
     it('should throw an error', () => {
-      const action: CommitsGetError = new CommitsGetError();
+      const error: Error = new Error();
+      const action: CommitsGetError = new CommitsGetError({error});
       const newState: IUserState = nodesReducers(initialUsersState, action);
       expect(newState).toEqual({
         ...initialUsersState,
