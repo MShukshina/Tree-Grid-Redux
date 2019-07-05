@@ -19,11 +19,15 @@ describe('AppComponent', () => {
     app = fixture.debugElement.componentInstance;
   });
 
-  it('should create the app', () => {
-    expect(app).toBeTruthy();
+  describe('AppComponent create', () => {
+    it('should create the app', () => {
+      expect(app).toBeTruthy();
+    });
   });
 
-  it(`should have as title 'individual-tree-grid-redux'`, () => {
-    expect(app.title).toEqual('individual-tree-grid-redux');
+  describe('AppComponent title', () => {
+    it(`should have as title 'individual-tree-grid-redux'`, () => {
+      expect(app.title).toEqual('individual-tree-grid-redux');
+    });
   });
 });

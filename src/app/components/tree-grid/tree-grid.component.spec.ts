@@ -1,57 +1,46 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TreeGridComponent } from './tree-grid.component';
-import {ITreeState} from '../../store/state/tree.state';
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
-import {GetUsers, GetUsersSuccess} from '../../store/actions/node.actions';
-import {reducers} from '../../store/reducers';
+import {Store} from '@ngrx/store';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {INode} from '../../models/node.interface';
+import {ITreeState} from '../../store/state/tree.state';
+import {GetUsers} from '../../store/actions/node.actions';
+import {GitHabService} from '../../services/githab.service';
 
 describe('TreeGridComponent', () => {
   let component: TreeGridComponent;
   let fixture: ComponentFixture<TreeGridComponent>;
-  let store: Store<ITreeState>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...reducers,
-          feature: combineReducers(reducers),
-        }),
-      ],
-      declarations: [ TreeGridComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    }).compileComponents();
-  }));
+  let store: jasmine.SpyObj<Store<ITreeState>>;
 
   beforeEach(() => {
-    store = TestBed.get(Store);
-
-    spyOn(store, 'dispatch').and.callThrough();
+    TestBed.configureTestingModule({
+      declarations: [TreeGridComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [{provide: Store,
+        useValue: {
+          dispatch: jasmine.createSpy(),
+          select: jasmine.createSpy(),
+          subscribe: jasmine.createSpy()
+        }}]
+    });
 
     fixture = TestBed.createComponent(TreeGridComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    store = TestBed.get(Store);
   });
 
-  it('should create tree-grid', () => {
-    expect(component).toBeTruthy();
-  });
-
-  /*it('should dispatch an action to load data when created', () => {
-    const action = new GetUsers();
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });*/
-
-  /*it('should display a list of items after the data is loaded', () => {
-    const nodes$: INode[]  = [];
-
-    store.dispatch(new GetUsersSuccess(nodes$));
-
-    component.nodes$.subscribe(data => {
-      expect(Object.keys(data).length).toBe(nodes$.length);
+  describe('TreeGridComponent create', () => {
+    it('should create tree-grid', () => {
+      expect(component).toBeTruthy();
     });
-  });*/
+  });
+
+  describe('TreeGridComponent ngOnInit', () => {
+    it('should dispatch an the GetUsers action in ngOnInit lifecycle', () => {
+      const action = new GetUsers();
+      expect(store.dispatch).toBeObservable(action);
+    });
+  });
 });

@@ -1,76 +1,113 @@
-import {initialUsersState} from '../state/user.state';
-import {ENodeActions, GetUsers, NodeActions} from '../actions/node.actions';
+import {initialUsersState, IUserState} from '../state/user.state';
+import {
+  AddChildRepositories,
+  AddChildUsers,
+  CommitsGetError,
+  GetUsersSuccess,
+  RepositoriesGetError,
+  UsersGetError
+} from '../actions/node.actions';
 import {nodesReducers} from './node.reducers';
-import {ofType} from '@ngrx/effects';
+import {INode} from '../../models/node.interface';
+
 
 describe('node reducers', () => {
-  it('Get Users Success', () => {
-    const action = {
-      type: ENodeActions.GetUsers,
-      payload: [],
-    };
-    const newState = nodesReducers(initialUsersState, action);
-    expect(newState).toEqual({
-     ...initialUsersState,
-      nodes: action.payload
+  describe('[Nodes] Get Users Success', () => {
+    it('should toggle loading state', () => {
+      const nodes: INode[] =  [];
+      const action: GetUsersSuccess = new GetUsersSuccess( nodes );
+      const newState: IUserState = nodesReducers(initialUsersState, action);
+      expect(newState).toEqual({
+        ...initialUsersState,
+        nodes: action.payload,
+      });
     });
   });
 
-  it('Users Get Error', () => {
-    const action = {
-      type: ENodeActions.UsersGetError,
-    };
-    const newState = nodesReducers(initialUsersState, action);
-    expect(newState).toEqual({
-      ...initialUsersState,
-      nodes: [],
-      errorMsg: null,
+  describe('[Nodes] Users Get Error', () => {
+    it('should throw an error', () => {
+      const error: Error = new Error();
+      const action: UsersGetError = new UsersGetError({error});
+      const newState: IUserState = nodesReducers(initialUsersState, action);
+      expect(newState).toEqual({
+        ...initialUsersState,
+        nodes: [],
+      });
     });
   });
 
-  it('Repositories Get Error', () => {
-    const action = {
-      type: ENodeActions.RepositoriesGetError,
-    };
-    const newState = nodesReducers(initialUsersState, action);
-    expect(newState).toEqual({
-      ...initialUsersState,
-      nodes: [],
-      errorMsg: null,
+  describe('[Nodes] Repositories Get Error', () => {
+    it('should throw an error', () => {
+      const error: Error = new Error();
+      const action: RepositoriesGetError = new RepositoriesGetError({error});
+      const newState: IUserState = nodesReducers(initialUsersState, action);
+      expect(newState).toEqual({
+        ...initialUsersState,
+        nodes: [],
+      });
     });
   });
 
-  it('Commits Get Error', () => {
-    const action = {
-      type: ENodeActions.CommitsGetError,
-    };
-    const newState = nodesReducers(initialUsersState, action);
-    expect(newState).toEqual({
-      ...initialUsersState,
-      nodes: [],
-      errorMsg: null,
+  describe('[Nodes] Commits Get Error', () => {
+    it('should throw an error', () => {
+      const error: Error = new Error();
+      const action: CommitsGetError = new CommitsGetError({error});
+      const newState: IUserState = nodesReducers(initialUsersState, action);
+      expect(newState).toEqual({
+        ...initialUsersState,
+        nodes: [],
+      });
     });
   });
 
-  /*it('Add Child Users', () => {
-    const action = {
-      type: ENodeActions.AddChildUsers,
-    };
-    const newState = nodesReducers(initialUsersState, action);
-    expect(newState).toEqual({
-      ...initialUsersState,
-      isOpened: true,
+  describe('[Nodes] Add Child Users', () => {
+    it('should toggle loading state', () => {
+      const node: INode = {
+        id: 0,
+        parent: null,
+        parent_id: null,
+        name: 'A',
+        level: 1,
+        nodeId: '',
+        url: '',
+        child: []
+      };
+      const nodes: INode[] =  [];
+      const action: AddChildUsers = new AddChildUsers(nodes, node);
+      const newState: IUserState = nodesReducers(initialUsersState, action);
+      expect(newState).toEqual({
+        ...initialUsersState,
+        nodes: Object.entries({ ...initialUsersState.nodes,
+          [action.node.id]: {
+            ...action.node,
+            child: action.child
+          }
+        }).map(([id, value]) => (value))
+      });
     });
   });
 
-  it('Add Child Repositories', () => {
-    const action = {
-      type: ENodeActions.AddChildRepositories,
-    };
-    const newState = nodesReducers(initialUsersState, action);
-    expect(newState).toEqual({
-      ...initialUsersState,
-      isOpened: true,
+/*  describe('[Nodes] Add Child Repositories', () => {
+    it('should toggle loading state', () => {
+      const node: INode = {id: 6, parent: 'A', parent_id: 0, name: '10links', level: 2, nodeId: '', url: '', child: []};
+      const nodes: INode[] =  [];
+      const action = new AddChildRepositories(nodes, node);
+      const newState = nodesReducers(initialUsersState, action);
+      expect(newState).toEqual({
+        ...initialUsersState,
+        nodes: Object.entries({...initialUsersState.nodes,
+          [action.node.parent_id]: {
+            ...initialUsersState.nodes[action.node.parent_id],
+            child: Object.entries({
+              ...initialUsersState.nodes[action.node.parent_id].child,
+              [action.node.id % 5]: {
+                ...action.node,
+                child: action.child
+              }
+            }).map(([id, value]) => (value))
+          }
+        }).map(([id, value]) => (value))
+      });
     });
   });*/
 });

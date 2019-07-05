@@ -7,21 +7,21 @@ import {
 } from '../actions/node.actions';
 import {catchError, map, pluck, switchMap} from 'rxjs/operators';
 import {GitHabService} from '../../services/githab.service';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {INode} from '../../models/node.interface';
+import {Action} from '@ngrx/store';
 
 
 @Injectable()
 export class NodeEffects {
-  getNodes$ = createEffect(() => this.actions$.pipe(
+  getNodes$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType<GetUsers>(ENodeActions.GetUsers),
     switchMap(() => this.nodeService.getGitHubUsers()),
     switchMap((nodes: INode[]) => of(new GetUsersSuccess(nodes))),
-    catchError(() => of(new UsersGetError()))
-    )
-  );
+    catchError((error) => of(new UsersGetError(error)))
+  ));
 
-  getRepositories$ = createEffect(() => this.actions$.pipe(
+  openedRepositories$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType<GetRepositories>(ENodeActions.GetRepositories),
     pluck('node'),
     switchMap((node: INode) => {
@@ -33,11 +33,11 @@ export class NodeEffects {
       );
     }),
     switchMap( (result: {child: INode[], node: INode}) => of(new AddChildUsers(result.child, result.node))),
-    catchError(() => of(new RepositoriesGetError())),
+    catchError((error) => of(new RepositoriesGetError({error}))),
     )
   );
 
-  openedCommits$ = createEffect(() => this.actions$.pipe(
+  openedCommits$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType<GetCommits>(ENodeActions.GetCommits),
     pluck('node'),
     switchMap((node: INode) => {
@@ -49,12 +49,9 @@ export class NodeEffects {
         );
       }),
     switchMap((result: {child: INode[], node: INode}) => of(new AddChildRepositories(result.child, result.node))),
-    catchError(() => of(new CommitsGetError()))
+    catchError((error) => of(new CommitsGetError({error})))
     )
   );
 
-  constructor(
-    private nodeService: GitHabService,
-    private actions$: Actions
-  ) {}
+  constructor(private nodeService: GitHabService, private actions$: Actions) {}
 }
