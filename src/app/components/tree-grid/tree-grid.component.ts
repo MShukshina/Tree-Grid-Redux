@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {selectNodesList} from '../../store/selectors/node.selectors';
-import {GetCommits, GetRepositories, GetUsers} from '../../store/actions/node.actions';
+import {GetCommits, GetRepositories, GetUsers, SetPropertyIsOpened} from '../../store/actions/node.actions';
 import {ITreeState} from '../../store/state/tree.state';
 import {INode} from '../../models/node.interface';
 import {Observable} from 'rxjs';
@@ -33,6 +33,10 @@ export class TreeGridComponent implements OnInit {
       } else {
         this.store.dispatch( new GetCommits(node));
       }
+  }
+
+  changePropertyIsOpened(node: INode) {
+    this.store.dispatch( new SetPropertyIsOpened(node));
   }
 
 }

@@ -9,7 +9,8 @@ import {INode} from '../../../models/node.interface';
 export class NodeTreeComponent implements OnInit {
 
   @Input() nodes;
-  @Output()  openOrCloseChild: EventEmitter<INode> = new EventEmitter();
+  @Output() openOrCloseChild: EventEmitter<INode> = new EventEmitter();
+  @Output() changePropertyIsOpened: EventEmitter<INode> = new EventEmitter();
 
   constructor() { }
 
@@ -20,4 +21,7 @@ export class NodeTreeComponent implements OnInit {
     this.openOrCloseChild.emit(node);
   }
 
+  changePropIsOpened(node: INode) {
+    this.changePropertyIsOpened.emit(node);
+  }
 }

@@ -6,6 +6,9 @@ import { environment } from '../../../environments/environment';
 import { IUserState } from '../state/user.state';
 import {nodesReducers} from './node.reducers';
 
+
+/*const store = createStore(nodesReducers, composeWithDevTools());*/
+
 export interface State {
   nodes: IUserState;
 }

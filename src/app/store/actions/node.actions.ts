@@ -11,6 +11,7 @@ export enum ENodeActions {
   CommitsGetError = '[Nodes] Commits Get Error',
   AddChildUsers = '[Nodes] Add Child Users',
   AddChildRepositories = '[Nodes] Add Child Repositories',
+  SetPropertyIsOpened = '[Nodes] Change Property isOpened',
 }
 
 export class GetUsers implements Action {
@@ -57,6 +58,11 @@ export class AddChildRepositories implements Action {
   constructor(public child: INode[], public node: INode) {}
 }
 
+export class SetPropertyIsOpened implements Action {
+  public readonly type = ENodeActions.SetPropertyIsOpened;
+  constructor(public node: INode) {}
+}
+
 export type NodeActions = GetUsers |
   GetUsersSuccess |
   GetRepositories |
@@ -65,4 +71,5 @@ export type NodeActions = GetUsers |
   GetCommits |
   CommitsGetError |
   AddChildUsers |
-  AddChildRepositories;
+  AddChildRepositories|
+  SetPropertyIsOpened;

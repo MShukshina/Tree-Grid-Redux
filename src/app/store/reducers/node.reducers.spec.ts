@@ -70,7 +70,8 @@ describe('node reducers', () => {
         level: 1,
         nodeId: '',
         url: '',
-        child: []
+        child: [],
+        isOpened: false
       };
       const nodes: INode[] =  [];
       const action: AddChildUsers = new AddChildUsers(nodes, node);

@@ -3,7 +3,7 @@ import {ofType, Actions, createEffect} from '@ngrx/effects';
 import {
   ENodeActions, GetCommits, GetRepositories,
   GetUsers, GetUsersSuccess, UsersGetError,
-  AddChildUsers, RepositoriesGetError, CommitsGetError, AddChildRepositories
+  AddChildUsers, RepositoriesGetError, CommitsGetError, AddChildRepositories, SetPropertyIsOpened
 } from '../actions/node.actions';
 import {catchError, map, pluck, switchMap} from 'rxjs/operators';
 import {GitHabService} from '../../services/githab.service';
@@ -32,7 +32,14 @@ export class NodeEffects {
         }))
       );
     }),
-    switchMap( (result: {child: INode[], node: INode}) => of(new AddChildUsers(result.child, result.node))),
+    switchMap( (result: {child: INode[], node: INode}) => {
+      console.log(result, new AddChildUsers(result.child, result.node));
+      return of(new AddChildUsers(result.child, result.node));
+    }),
+    switchMap( (result: {child: INode[], node: INode}) => {
+      console.log(result);
+      return of(new SetPropertyIsOpened(result.node));
+   }),
     catchError((error) => of(new RepositoriesGetError({error}))),
     )
   );

@@ -10,6 +10,17 @@ export const nodesReducers = (state = initialUsersState, action: NodeActions): I
         nodes: action.payload
       };
     }
+    case ENodeActions.SetPropertyIsOpened: {
+      return {
+        ...state,
+        nodes: [].concat(Object.entries({ ...state.nodes,
+          [action.node.id]: {
+            ...action.node,
+            isOpened: !action.node.isOpened
+          }
+        })).map(([id, value]) => (value))
+      };
+    }
     case ENodeActions.UsersGetError: {
       return {
         ...state,

@@ -10,9 +10,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from './store/effects/node.effects';
 import {HttpClientModule} from '@angular/common/http';
 import {GitHabService} from './services/githab.service';
-import {treeReducers} from './store/reducers/tree.reducer';
+import {treeReducers} from './store/reducers/tree.reducers';
 import {environment} from '../environments/environment';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {metaReducers, reducers} from './store/reducers';
 
 @NgModule({
   declarations: [
@@ -25,10 +26,11 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
     BrowserModule,
     HttpClientModule,
     StoreModule.forRoot(treeReducers),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([NodeEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [GitHabService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

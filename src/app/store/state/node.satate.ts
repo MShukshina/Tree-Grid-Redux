@@ -9,6 +9,7 @@ export interface INodeState {
   url: string;
   level: number;
   child: {[id: number]: INode};
+  isOpened: boolean;
 }
 
 export const initialNodeState: INodeState = {
@@ -20,4 +21,5 @@ export const initialNodeState: INodeState = {
   url: '',
   level: null,
   child: [],
+  isOpened: false,
 };

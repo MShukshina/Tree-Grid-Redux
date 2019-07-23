@@ -1,4 +1,4 @@
 <ng-container *ngFor="let node of nodes">
-  <app-row-grid [node]="node" (openOrCloseChild)="openOrCloseChildren($event)"></app-row-grid>
+  <app-row-grid [node]="node" (openOrCloseChild)="openOrCloseChildren($event)" (changePropIsOpened)="changePropIsOpened($event)"></app-row-grid>
   <app-node-tree [ngClass]="{'isOpen': node?.isOpened}" [nodes]="node?.child" *ngIf="node?.isOpened" (openOrCloseChild)="openOrCloseChildren($event)"></app-node-tree>
 </ng-container>

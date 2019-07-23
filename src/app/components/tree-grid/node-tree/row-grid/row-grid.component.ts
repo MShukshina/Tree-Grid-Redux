@@ -10,21 +10,28 @@ export class RowGridComponent implements OnInit {
 
   @Input() node;
   @Output() openOrCloseChild: EventEmitter<INode> = new EventEmitter();
+  @Output() changePropIsOpened: EventEmitter<INode> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  openChildren(node) {
+  openChildren(node: INode) {
     this.openOrCloseChild.emit(node);
   }
 
-  openOrCloseChildren(node) {
+  changePropertyIsOpened(node: INode) {
+    this.changePropIsOpened.emit(node);
+  }
+
+  openOrCloseChildren(node: INode) {
     if (!node.isOpened) {
       this.openChildren(node);
+    } else {
+      this.changePropertyIsOpened(node);
     }
-    node.isOpened = !node.isOpened;
+    /*node.isOpened = !node.isOpened;*/
   }
 
 }

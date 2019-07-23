@@ -7,4 +7,5 @@ export interface INode {
   url: string;
   level: number;
   child: INode [];
+  isOpened;
 }
