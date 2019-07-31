@@ -1,69 +1,75 @@
-import {Action, createAction, props} from '@ngrx/store';
-import { INode } from '../../models/node.interface';
+import {Action} from '@ngrx/store';
 
-export enum ENodeActions {
-  GetUsers = '[Nodes] Get Users',
-  GetUsersSuccess = '[Nodes] Get Users Success',
-  UsersGetError = '[Nodes] Users Get Error',
-  GetRepositories = '[Nodes] Get Repositories',
-  RepositoriesGetError = '[Nodes] Repositories Get Error',
-  GetCommits = '[Nodes] Get Commits',
-  CommitsGetError = '[Nodes] Commits Get Error',
-  AddChildUsers = '[Nodes] Add Child Users',
-  AddChildRepositories = '[Nodes] Add Child Repositories',
-  SetPropertyIsOpened = '[Nodes] Change Property isOpened',
+import { Node } from '../../models/node.interface';
+
+export enum NodeActions {
+  GetUsers = '[NODES] GET USERS',
+  GetUsersSuccess = '[NODES] GET USERS SUCCESS',
+  UsersGetError = '[NODES] USERS GET ERROR',
+  GetRepositories = '[NODES] GET REPOSITORIES',
+  RepositoriesGetError = '[NODES] REPOSITORIES GET ERROR',
+  GetCommits = '[NODES] GET COMMITS',
+  CommitsGetError = '[NODES] COMMITS GET ERROR',
+  AddChildUsers = '[NODES] ADD CHILD USERS',
+  AddChildRepositories = '[NODES] ADD CHILD REPOSITORIES',
+  SetPropertyIsOpenedUsers = '[NODES] CHANGE PROPERTY IS OPENED USERS',
+  SetPropertyIsOpenedRepositories = '[NODES] CHANGE PROPERTY IS OPENED REPOSITORIES',
 }
 
 export class GetUsers implements Action {
-  public readonly type = ENodeActions.GetUsers;
+  public readonly type = NodeActions.GetUsers;
 }
 
 export class GetUsersSuccess implements Action {
-  public readonly type = ENodeActions.GetUsersSuccess;
-  constructor(public payload: INode[]) {}
+  public readonly type = NodeActions.GetUsersSuccess;
+  constructor(public payload: Node[]) {}
 }
 
 export class UsersGetError implements Action {
-  public readonly type = ENodeActions.UsersGetError;
-  constructor(public payload: { error: Error }) {}
+  public readonly type = NodeActions.UsersGetError;
+  constructor(public error: Error) {}
 }
 
 export class GetRepositories implements Action {
-  public readonly type = ENodeActions.GetRepositories;
-  constructor(public node: INode) {}
+  public readonly type = NodeActions.GetRepositories;
+  constructor(public node: Node) {}
 }
 
 export class RepositoriesGetError implements Action {
-  public readonly type = ENodeActions.RepositoriesGetError;
-  constructor(public payload: { error: Error }) {}
+  public readonly type = NodeActions.RepositoriesGetError;
+  constructor(public error: Error) {}
 }
 
 export class GetCommits implements Action {
-  public readonly type = ENodeActions.GetCommits;
-  constructor(public node: INode) {}
+  public readonly type = NodeActions.GetCommits;
+  constructor(public node: Node) {}
 }
 
 export class CommitsGetError implements Action {
-  public readonly type = ENodeActions.CommitsGetError;
-  constructor(public payload: { error: Error }) {}
+  public readonly type = NodeActions.CommitsGetError;
+  constructor(public error: Error) {}
 }
 
 export class AddChildUsers implements Action {
-  public readonly type = ENodeActions.AddChildUsers;
-  constructor(public child: INode[], public node: INode) {}
+  public readonly type = NodeActions.AddChildUsers;
+  constructor(public child: Node[], public node: Node) {}
 }
 
 export class AddChildRepositories implements Action {
-  public readonly type = ENodeActions.AddChildRepositories;
-  constructor(public child: INode[], public node: INode) {}
+  public readonly type = NodeActions.AddChildRepositories;
+  constructor(public child: Node[], public node: Node) {}
 }
 
-export class SetPropertyIsOpened implements Action {
-  public readonly type = ENodeActions.SetPropertyIsOpened;
-  constructor(public node: INode) {}
+export class SetPropertyIsOpenedUsers implements Action {
+  public readonly type = NodeActions.SetPropertyIsOpenedUsers;
+  constructor(public nodeId: number) {}
+}
+export class SetPropertyIsOpenedRepositories implements Action {
+  public readonly type = NodeActions.SetPropertyIsOpenedRepositories;
+  constructor(public nodeId: number, public nodeParentId: number) {}
 }
 
-export type NodeActions = GetUsers |
+export type nodeActions = GetUsers |
   GetUsersSuccess |
   GetRepositories |
   UsersGetError |
@@ -72,4 +78,5 @@ export type NodeActions = GetUsers |
   CommitsGetError |
   AddChildUsers |
   AddChildRepositories|
-  SetPropertyIsOpened;
+  SetPropertyIsOpenedUsers|
+  SetPropertyIsOpenedRepositories;

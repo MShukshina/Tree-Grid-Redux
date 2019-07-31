@@ -1,10 +1,19 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {selectNodesList} from '../../store/selectors/node.selectors';
-import {GetCommits, GetRepositories, GetUsers, SetPropertyIsOpened} from '../../store/actions/node.actions';
-import {ITreeState} from '../../store/state/tree.state';
-import {INode} from '../../models/node.interface';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
+import {Store} from '@ngrx/store';
+
+import {
+  GetCommits,
+  GetRepositories,
+  GetUsers,
+  SetPropertyIsOpenedRepositories,
+  SetPropertyIsOpenedUsers
+} from '../../store/actions/node.actions';
+import {Node} from '../../models/node.interface';
+import {selectNodesList} from '../../store/selectors/node.selectors';
+import {TreeState} from '../../store/state/tree.state';
+
+
 
 @Component({
   selector: 'app-tree-grid',
@@ -13,21 +22,16 @@ import {Observable} from 'rxjs';
 })
 export class TreeGridComponent implements OnInit {
 
-  nodes$: Observable<{[id: number]: INode}>;
+  nodes$: Observable<{[id: number]: Node}>;
 
-  constructor(private store: Store<ITreeState>) {
+  constructor(private store: Store<TreeState>) {
   }
 
-  getNodes(): Observable<{[id: number]: INode}> {
+  getNodes(): Observable<{[id: number]: Node}> {
     return this.store.select(selectNodesList);
   }
 
-  ngOnInit() {
-    this.store.dispatch( new GetUsers());
-    this.nodes$ = this.getNodes();
-  }
-
-  openOrCloseChildren(node: INode) {
+  openOrCloseChildren(node: Node) {
       if (node.level === 1) {
         this.store.dispatch( new GetRepositories(node));
       } else {
@@ -35,8 +39,16 @@ export class TreeGridComponent implements OnInit {
       }
   }
 
-  changePropertyIsOpened(node: INode) {
-    this.store.dispatch( new SetPropertyIsOpened(node));
+  changePropertyIsOpened(node: Node) {
+    if (node.level === 1) {
+      this.store.dispatch(new SetPropertyIsOpenedUsers(node.id));
+    } else {
+      this.store.dispatch(new SetPropertyIsOpenedRepositories(node.id, node.parent_id));
+    }
   }
 
+  ngOnInit() {
+    this.store.dispatch( new GetUsers());
+    this.nodes$ = this.getNodes();
+  }
 }

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {INode} from '../../../../models/node.interface';
+
+import {Node} from '../../../../models/node.interface';
 
 @Component({
   selector: 'app-row-grid',
@@ -9,29 +10,28 @@ import {INode} from '../../../../models/node.interface';
 export class RowGridComponent implements OnInit {
 
   @Input() node;
-  @Output() openOrCloseChild: EventEmitter<INode> = new EventEmitter();
-  @Output() changePropIsOpened: EventEmitter<INode> = new EventEmitter();
+  @Output() openOrCloseChild: EventEmitter<Node> = new EventEmitter();
+  @Output() changePropIsOpened: EventEmitter<Node> = new EventEmitter();
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
-  openChildren(node: INode) {
+  openChildren(node: Node) {
     this.openOrCloseChild.emit(node);
   }
 
-  changePropertyIsOpened(node: INode) {
+  changePropertyIsOpened(node: Node) {
     this.changePropIsOpened.emit(node);
   }
 
-  openOrCloseChildren(node: INode) {
+  openOrCloseChildren(node: Node) {
     if (!node.isOpened) {
       this.openChildren(node);
     } else {
       this.changePropertyIsOpened(node);
     }
-    /*node.isOpened = !node.isOpened;*/
+  }
+
+  ngOnInit() {
   }
 
 }

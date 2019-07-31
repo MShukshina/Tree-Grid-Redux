@@ -1,10 +1,6 @@
-import {initialUsersState, IUserState} from './user.state';
+import {UserState} from './user.state';
 
-export interface ITreeState {
-  nodes: IUserState;
+export interface TreeState {
+  nodes: UserState;
 }
-
-export const initialTreeState: ITreeState = {
-  nodes: initialUsersState
-};
 

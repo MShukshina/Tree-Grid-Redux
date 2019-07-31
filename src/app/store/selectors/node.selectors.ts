@@ -1,10 +1,12 @@
 import {createSelector} from '@ngrx/store';
-import {IUserState} from '../state/user.state';
-import {ITreeState} from '../state/tree.state';
 
-const selectNodes = (state: ITreeState) => state.nodes;
+import {TreeState} from '../state/tree.state';
+import {UserState} from '../state/user.state';
+
+const selectNodes = (state: TreeState) => state.nodes;
 
 export const selectNodesList = createSelector(
   selectNodes,
-  (state: IUserState) => state.nodes
+  (state: UserState) => state.nodes
 );
+

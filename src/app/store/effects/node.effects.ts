@@ -1,30 +1,41 @@
 import {Injectable} from '@angular/core';
-import {ofType, Actions, createEffect} from '@ngrx/effects';
-import {
-  ENodeActions, GetCommits, GetRepositories,
-  GetUsers, GetUsersSuccess, UsersGetError,
-  AddChildUsers, RepositoriesGetError, CommitsGetError, AddChildRepositories, SetPropertyIsOpened
-} from '../actions/node.actions';
-import {catchError, map, pluck, switchMap} from 'rxjs/operators';
-import {GitHabService} from '../../services/githab.service';
-import {Observable, of} from 'rxjs';
-import {INode} from '../../models/node.interface';
 import {Action} from '@ngrx/store';
+import {ofType, Actions, createEffect} from '@ngrx/effects';
+
+import {Observable, of} from 'rxjs';
+import {catchError, map, pluck, switchMap} from 'rxjs/operators';
+
+import {GitHabService} from '../../services/githab.service';
+import {
+  NodeActions,
+  GetCommits,
+  GetRepositories,
+  GetUsers,
+  GetUsersSuccess,
+  UsersGetError,
+  AddChildUsers,
+  RepositoriesGetError,
+  CommitsGetError,
+  AddChildRepositories,
+  SetPropertyIsOpenedRepositories,
+  SetPropertyIsOpenedUsers
+} from '../actions/node.actions';
+import {Node} from '../../models/node.interface';
 
 
 @Injectable()
 export class NodeEffects {
   getNodes$: Observable<Action> = createEffect(() => this.actions$.pipe(
-    ofType<GetUsers>(ENodeActions.GetUsers),
+    ofType<GetUsers>(NodeActions.GetUsers),
     switchMap(() => this.nodeService.getGitHubUsers()),
-    switchMap((nodes: INode[]) => of(new GetUsersSuccess(nodes))),
+    switchMap((nodes: Node[]) => of(new GetUsersSuccess(nodes))),
     catchError((error) => of(new UsersGetError(error)))
   ));
 
   openedRepositories$: Observable<Action> = createEffect(() => this.actions$.pipe(
-    ofType<GetRepositories>(ENodeActions.GetRepositories),
+    ofType<GetRepositories>(NodeActions.GetRepositories),
     pluck('node'),
-    switchMap((node: INode) => {
+    switchMap((node: Node) => {
       return this.nodeService.getGitHubRepositories(node.name,  node.id).pipe(
         map(child => ({
           child,
@@ -32,22 +43,18 @@ export class NodeEffects {
         }))
       );
     }),
-    switchMap( (result: {child: INode[], node: INode}) => {
-      console.log(result, new AddChildUsers(result.child, result.node));
-      return of(new AddChildUsers(result.child, result.node));
-    }),
-    switchMap( (result: {child: INode[], node: INode}) => {
-      console.log(result);
-      return of(new SetPropertyIsOpened(result.node));
-   }),
-    catchError((error) => of(new RepositoriesGetError({error}))),
+    switchMap( (result: {child: Node[], node: Node}) => [
+      new AddChildUsers(result.child, result.node),
+      new SetPropertyIsOpenedUsers(result.node.id),
+      ]),
+    catchError((error) => of(new RepositoriesGetError(error))),
     )
   );
 
   openedCommits$: Observable<Action> = createEffect(() => this.actions$.pipe(
-    ofType<GetCommits>(ENodeActions.GetCommits),
+    ofType<GetCommits>(NodeActions.GetCommits),
     pluck('node'),
-    switchMap((node: INode) => {
+    switchMap((node: Node) => {
      return this.nodeService.getGitHubCommits(node.parent, node.name, node.id).pipe(
           map(child => ({
             child,
@@ -55,10 +62,11 @@ export class NodeEffects {
           }))
         );
       }),
-    switchMap((result: {child: INode[], node: INode}) => of(new AddChildRepositories(result.child, result.node))),
-    catchError((error) => of(new CommitsGetError({error})))
-    )
+    switchMap((result: {child: Node[], node: Node}) => [
+      new AddChildRepositories(result.child, result.node),
+      new SetPropertyIsOpenedRepositories(result.node.id, result.node.parent_id),
+    ]),
+    catchError((error) => of(new CommitsGetError(error))))
   );
-
   constructor(private nodeService: GitHabService, private actions$: Actions) {}
 }

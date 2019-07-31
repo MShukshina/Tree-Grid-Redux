@@ -1,6 +1,6 @@
-import {INode} from '../../models/node.interface';
+import {Node} from '../../models/node.interface';
 
-export interface INodeState {
+export interface NodeState {
   id: number;
   parent: string;
   parent_id: number;
@@ -8,18 +8,6 @@ export interface INodeState {
   nodeId: string;
   url: string;
   level: number;
-  child: {[id: number]: INode};
+  child: {[id: number]: Node};
   isOpened: boolean;
 }
-
-export const initialNodeState: INodeState = {
-  id: null,
-  parent: '',
-  parent_id: null,
-  name: '',
-  nodeId: '',
-  url: '',
-  level: null,
-  child: [],
-  isOpened: false,
-};

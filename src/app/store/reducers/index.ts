@@ -1,16 +1,10 @@
-import {
-  ActionReducerMap,
-  MetaReducer,
-} from '@ngrx/store';
+import {ActionReducerMap, MetaReducer} from '@ngrx/store';
 import { environment } from '../../../environments/environment';
-import { IUserState } from '../state/user.state';
+import { UserState } from '../state/user.state';
 import {nodesReducers} from './node.reducers';
 
-
-/*const store = createStore(nodesReducers, composeWithDevTools());*/
-
 export interface State {
-  nodes: IUserState;
+  nodes: UserState;
 }
 
 export const reducers: ActionReducerMap<State> = {

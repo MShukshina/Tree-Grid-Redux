@@ -1,9 +1,11 @@
-import {INode} from '../../models/node.interface';
+import {Node} from '../../models/node.interface';
 
-export interface IUserState {
-  nodes: {[id: number]: INode};
+export interface UserState {
+  nodes: {[id: number]: Node};
+  error: Error;
 }
 
-export const initialUsersState: IUserState = {
+export const initialUsersState: UserState = {
   nodes: [],
+  error: null
 };

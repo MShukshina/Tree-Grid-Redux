@@ -1,16 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { TreeGridComponent } from './tree-grid.component';
+import {ComponentFixture, TestBed } from '@angular/core/testing';
+import {TreeGridComponent } from './tree-grid.component';
 import {Store} from '@ngrx/store';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {ITreeState} from '../../store/state/tree.state';
 import {GetUsers} from '../../store/actions/node.actions';
-import {GitHabService} from '../../services/githab.service';
+import {NodeState} from '../../store/state/node.satate';
 
 describe('TreeGridComponent', () => {
   let component: TreeGridComponent;
   let fixture: ComponentFixture<TreeGridComponent>;
-  let store: jasmine.SpyObj<Store<ITreeState>>;
+  let store: jasmine.SpyObj<Store<NodeState>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

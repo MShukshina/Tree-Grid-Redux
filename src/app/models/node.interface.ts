@@ -1,4 +1,4 @@
-export interface INode {
+export interface Node {
   id: number;
   parent: string;
   parent_id: number;
@@ -6,6 +6,6 @@ export interface INode {
   nodeId: string;
   url: string;
   level: number;
-  child: INode [];
+  child: Node [];
   isOpened;
 }

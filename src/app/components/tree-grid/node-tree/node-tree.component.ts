@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {INode} from '../../../models/node.interface';
+
+import {Node} from '../../../models/node.interface';
 
 @Component({
   selector: 'app-node-tree',
@@ -9,19 +10,21 @@ import {INode} from '../../../models/node.interface';
 export class NodeTreeComponent implements OnInit {
 
   @Input() nodes;
-  @Output() openOrCloseChild: EventEmitter<INode> = new EventEmitter();
-  @Output() changePropertyIsOpened: EventEmitter<INode> = new EventEmitter();
+  @Output() openOrCloseChild: EventEmitter<Node> = new EventEmitter();
+  @Output() changePropertyIsOpened: EventEmitter<Node> = new EventEmitter();
 
   constructor() { }
+
+  openOrCloseChildren(node: Node) {
+    this.openOrCloseChild.emit(node);
+  }
+
+  changePropIsOpened(node: Node) {
+    this.changePropertyIsOpened.emit(node);
+  }
 
   ngOnInit() {
   }
 
-  openOrCloseChildren(node: INode) {
-    this.openOrCloseChild.emit(node);
-  }
 
-  changePropIsOpened(node: INode) {
-    this.changePropertyIsOpened.emit(node);
-  }
 }

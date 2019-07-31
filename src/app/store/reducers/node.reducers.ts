@@ -1,45 +1,68 @@
-import { ENodeActions } from '../actions/node.actions';
-import { NodeActions } from '../actions/node.actions';
-import {initialUsersState, IUserState} from '../state/user.state';
+import {NodeActions, nodeActions} from '../actions/node.actions';
+import {initialUsersState, UserState} from '../state/user.state';
 
-export const nodesReducers = (state = initialUsersState, action: NodeActions): IUserState => {
+export const nodesReducers = (state = initialUsersState, action: nodeActions): UserState => {
   switch (action.type) {
-    case ENodeActions.GetUsersSuccess: {
+    case NodeActions.GetUsersSuccess: {
       return {
         ...state,
         nodes: action.payload
       };
     }
-    case ENodeActions.SetPropertyIsOpened: {
+    case NodeActions.SetPropertyIsOpenedUsers: {
+      const node = {...state.nodes[action.nodeId]};
+      node.isOpened = !node.isOpened;
       return {
         ...state,
-        nodes: [].concat(Object.entries({ ...state.nodes,
-          [action.node.id]: {
-            ...action.node,
-            isOpened: !action.node.isOpened
+        nodes: [].concat(Object.entries(
+          {
+            ...state.nodes,
+            [action.nodeId]: {
+              ...node
+            }
           }
-        })).map(([id, value]) => (value))
+        )).map(([id, value]) => (value))
       };
     }
-    case ENodeActions.UsersGetError: {
+    case NodeActions.SetPropertyIsOpenedRepositories: {
+      const parentNode = {...state.nodes[action.nodeParentId]};
+      parentNode.child[action.nodeId % 5].isOpened = !parentNode.child[action.nodeId % 5].isOpened;
       return {
         ...state,
-        nodes: []
+        nodes: [].concat(Object.entries(
+          {
+            ...state.nodes,
+            [action.nodeParentId]: {
+              ...parentNode,
+              child: Object.entries({
+                ...parentNode.child
+              }).map(([id, value]) => (value))
+            }
+          })).map(([id, value]) => (value))
       };
     }
-    case ENodeActions.RepositoriesGetError: {
+    case NodeActions.UsersGetError: {
       return {
         ...state,
-        nodes: []
+        nodes: [],
+        error: action.error
       };
     }
-    case ENodeActions.CommitsGetError: {
+    case NodeActions.RepositoriesGetError: {
       return {
         ...state,
-        nodes: []
+        nodes: [],
+        error: action.error
       };
     }
-    case ENodeActions.AddChildUsers: {
+    case NodeActions.CommitsGetError: {
+      return {
+        ...state,
+        nodes: [],
+        error: action.error
+      };
+    }
+    case NodeActions.AddChildUsers: {
       return {
         ...state,
         nodes: [].concat(Object.entries({...state.nodes,
@@ -50,10 +73,11 @@ export const nodesReducers = (state = initialUsersState, action: NodeActions): I
         }).map(([id, value]) => (value)))
       };
     }
-    case ENodeActions.AddChildRepositories: {
+    case NodeActions.AddChildRepositories: {
       return {
         ...state,
-        nodes: [].concat(Object.entries({...state.nodes,
+        nodes: [].concat(Object.entries({
+          ...state.nodes,
           [action.node.parent_id]: {
             ...state.nodes[action.node.parent_id],
             child: Object.entries({
