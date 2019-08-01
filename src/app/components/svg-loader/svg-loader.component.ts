@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent} from "@angular/router";
 
 @Component({
   selector: 'app-svg-loader',
@@ -7,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SvgLoaderComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
-
 }

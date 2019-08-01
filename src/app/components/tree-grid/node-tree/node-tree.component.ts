@@ -10,6 +10,7 @@ import {Node} from '../../../models/node.interface';
 export class NodeTreeComponent implements OnInit {
 
   @Input() nodes;
+  @Input() loading;
   @Output() openOrCloseChild: EventEmitter<Node> = new EventEmitter();
   @Output() changePropertyIsOpened: EventEmitter<Node> = new EventEmitter();
 

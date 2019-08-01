@@ -18,7 +18,7 @@ import {
   CommitsGetError,
   AddChildRepositories,
   SetPropertyIsOpenedRepositories,
-  SetPropertyIsOpenedUsers
+  SetPropertyIsOpenedUsers, SetLoading
 } from '../actions/node.actions';
 import {Node} from '../../models/node.interface';
 
@@ -28,7 +28,10 @@ export class NodeEffects {
   getNodes$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType<GetUsers>(NodeActions.GetUsers),
     switchMap(() => this.nodeService.getGitHubUsers()),
-    switchMap((nodes: Node[]) => of(new GetUsersSuccess(nodes))),
+    switchMap((nodes: Node[]) => [
+      new GetUsersSuccess(nodes),
+      new SetLoading(false)
+    ]),
     catchError((error) => of(new UsersGetError(error)))
   ));
 
@@ -46,6 +49,7 @@ export class NodeEffects {
     switchMap( (result: {child: Node[], node: Node}) => [
       new AddChildUsers(result.child, result.node),
       new SetPropertyIsOpenedUsers(result.node.id),
+      new SetLoading(false)
       ]),
     catchError((error) => of(new RepositoriesGetError(error))),
     )
@@ -65,6 +69,7 @@ export class NodeEffects {
     switchMap((result: {child: Node[], node: Node}) => [
       new AddChildRepositories(result.child, result.node),
       new SetPropertyIsOpenedRepositories(result.node.id, result.node.parent_id),
+      new SetLoading(false)
     ]),
     catchError((error) => of(new CommitsGetError(error))))
   );

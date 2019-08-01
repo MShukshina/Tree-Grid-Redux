@@ -5,12 +5,12 @@ import {Store} from '@ngrx/store';
 import {
   GetCommits,
   GetRepositories,
-  GetUsers,
+  GetUsers, SetLoading,
   SetPropertyIsOpenedRepositories,
   SetPropertyIsOpenedUsers
 } from '../../store/actions/node.actions';
 import {Node} from '../../models/node.interface';
-import {selectNodesList} from '../../store/selectors/node.selectors';
+import {loading, selectNodesList} from '../../store/selectors/node.selectors';
 import {TreeState} from '../../store/state/tree.state';
 
 
@@ -23,6 +23,7 @@ import {TreeState} from '../../store/state/tree.state';
 export class TreeGridComponent implements OnInit {
 
   nodes$: Observable<{[id: number]: Node}>;
+  loading$: Observable<boolean>;
 
   constructor(private store: Store<TreeState>) {
   }
@@ -31,10 +32,18 @@ export class TreeGridComponent implements OnInit {
     return this.store.select(selectNodesList);
   }
 
+  getLoading(): Observable<boolean> {
+    return this.store.select(loading);
+  }
+
   openOrCloseChildren(node: Node) {
       if (node.level === 1) {
-        this.store.dispatch( new GetRepositories(node));
+        this.store.dispatch( new SetLoading(true));
+        setTimeout(() => {
+          this.store.dispatch( new GetRepositories(node));
+        }, 3000);
       } else {
+        this.store.dispatch( new SetLoading(true));
         this.store.dispatch( new GetCommits(node));
       }
   }
@@ -48,7 +57,9 @@ export class TreeGridComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch( new GetUsers());
+    this.store.dispatch( new SetLoading(true));
+    this.store.dispatch(new GetUsers());
     this.nodes$ = this.getNodes();
+    this.loading$ = this.getLoading();
   }
 }

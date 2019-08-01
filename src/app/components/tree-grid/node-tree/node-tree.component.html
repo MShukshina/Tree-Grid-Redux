@@ -1,4 +1,4 @@
-<app-svg-loader *ngIf="nodes"></app-svg-loader>
+<app-svg-loader *ngIf="!loading"></app-svg-loader>
 <ng-container *ngFor="let node of nodes">
   <app-row-grid [node]="node" (openOrCloseChild)="openOrCloseChildren($event)" (changePropIsOpened)="changePropIsOpened($event)"></app-row-grid>
   <app-node-tree [nodes]="node?.child" *ngIf="node?.isOpened" (openOrCloseChild)="openOrCloseChildren($event)"

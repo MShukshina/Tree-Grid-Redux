@@ -1,12 +1,17 @@
 import {createSelector} from '@ngrx/store';
 
 import {TreeState} from '../state/tree.state';
-import {UserState} from '../state/user.state';
+import {NodesState} from '../state/nodes.state';
 
 const selectNodes = (state: TreeState) => state.nodes;
 
 export const selectNodesList = createSelector(
   selectNodes,
-  (state: UserState) => state.nodes
+  (state: NodesState) => state.nodes
+);
+
+export const loading = createSelector(
+  selectNodes,
+  (state: NodesState) => state.loading
 );
 

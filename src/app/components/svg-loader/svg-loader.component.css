@@ -1,11 +1,10 @@
 svg-icon {
-  background: #cccccc;
-  opacity: .3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  flex-grow: 1;
   height: 100%;
   width: 100%;
+  background: #cccccc;
+  opacity: .3;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

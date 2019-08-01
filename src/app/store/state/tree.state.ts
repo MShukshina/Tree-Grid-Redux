@@ -1,6 +1,11 @@
-import {UserState} from './user.state';
+import {initialUsersState, NodesState} from './nodes.state';
+
 
 export interface TreeState {
-  nodes: UserState;
+  nodes: NodesState;
 }
+
+export const initialTreeState: TreeState = {
+  nodes: initialUsersState
+};
 

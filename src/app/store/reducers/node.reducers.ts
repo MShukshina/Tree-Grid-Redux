@@ -1,7 +1,7 @@
 import {NodeActions, nodeActions} from '../actions/node.actions';
-import {initialUsersState, UserState} from '../state/user.state';
+import {initialUsersState, NodesState} from '../state/nodes.state';
 
-export const nodesReducers = (state = initialUsersState, action: nodeActions): UserState => {
+export const nodesReducers = (state = initialUsersState, action: nodeActions): NodesState => {
   switch (action.type) {
     case NodeActions.GetUsersSuccess: {
       return {
@@ -89,6 +89,12 @@ export const nodesReducers = (state = initialUsersState, action: nodeActions): U
             }).map(([id, value]) => (value))
           }
         }).map(([id, value]) => (value)))
+      };
+    }
+    case NodeActions.SetLoading: {
+      return {
+        ...state,
+        loading: action.loading
       };
     }
     default:

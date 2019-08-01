@@ -14,6 +14,7 @@ export enum NodeActions {
   AddChildRepositories = '[NODES] ADD CHILD REPOSITORIES',
   SetPropertyIsOpenedUsers = '[NODES] CHANGE PROPERTY IS OPENED USERS',
   SetPropertyIsOpenedRepositories = '[NODES] CHANGE PROPERTY IS OPENED REPOSITORIES',
+  SetLoading = '[LOADING] SET LOADING'
 }
 
 export class GetUsers implements Action {
@@ -69,6 +70,11 @@ export class SetPropertyIsOpenedRepositories implements Action {
   constructor(public nodeId: number, public nodeParentId: number) {}
 }
 
+export class SetLoading implements Action {
+  public readonly type = NodeActions.SetLoading;
+  constructor(public loading: boolean) {}
+}
+
 export type nodeActions = GetUsers |
   GetUsersSuccess |
   GetRepositories |
@@ -79,4 +85,5 @@ export type nodeActions = GetUsers |
   AddChildUsers |
   AddChildRepositories|
   SetPropertyIsOpenedUsers|
-  SetPropertyIsOpenedRepositories;
+  SetPropertyIsOpenedRepositories|
+  SetLoading;

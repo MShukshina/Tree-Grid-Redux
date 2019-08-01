@@ -1,10 +1,10 @@
 import {ActionReducerMap, MetaReducer} from '@ngrx/store';
 import { environment } from '../../../environments/environment';
-import { UserState } from '../state/user.state';
 import {nodesReducers} from './node.reducers';
+import {NodesState} from '../state/nodes.state';
 
 export interface State {
-  nodes: UserState;
+  nodes: NodesState;
 }
 
 export const reducers: ActionReducerMap<State> = {
