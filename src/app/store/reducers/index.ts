@@ -1,14 +1,14 @@
-import {ActionReducerMap, MetaReducer} from '@ngrx/store';
+import {ActionReducerMap, createSelector, MetaReducer} from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 import {nodesReducers} from './node.reducers';
 import {NodesState} from '../state/nodes.state';
 
 export interface State {
-  nodes: NodesState;
+  tree: NodesState;
 }
 
 export const reducers: ActionReducerMap<State> = {
-    nodes: nodesReducers,
+  tree: nodesReducers,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

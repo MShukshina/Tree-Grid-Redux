@@ -9,7 +9,7 @@ import {Node} from '../../../../models/node.interface';
 })
 export class RowGridComponent implements OnInit {
 
-  @Input() node;
+  @Input() node: Node;
   @Output() openOrCloseChild: EventEmitter<Node> = new EventEmitter();
   @Output() changePropIsOpened: EventEmitter<Node> = new EventEmitter();
 
@@ -33,5 +33,4 @@ export class RowGridComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

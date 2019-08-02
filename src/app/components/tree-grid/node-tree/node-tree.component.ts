@@ -9,8 +9,8 @@ import {Node} from '../../../models/node.interface';
 })
 export class NodeTreeComponent implements OnInit {
 
-  @Input() nodes;
-  @Input() loading;
+  @Input() nodes: Node[];
+  @Input() loading: boolean;
   @Output() openOrCloseChild: EventEmitter<Node> = new EventEmitter();
   @Output() changePropertyIsOpened: EventEmitter<Node> = new EventEmitter();
 
@@ -26,6 +26,4 @@ export class NodeTreeComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
 }

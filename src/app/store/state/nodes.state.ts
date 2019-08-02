@@ -6,8 +6,8 @@ export interface NodesState {
   loading: boolean;
 }
 
-export const initialUsersState: NodesState = {
+export const initialNodesState: NodesState = {
   nodes: [],
   error: null,
-  loading: false
+  loading: true
 };

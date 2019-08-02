@@ -10,10 +10,8 @@ import {
   SetPropertyIsOpenedUsers
 } from '../../store/actions/node.actions';
 import {Node} from '../../models/node.interface';
-import {loading, selectNodesList} from '../../store/selectors/node.selectors';
-import {TreeState} from '../../store/state/tree.state';
-
-
+import {getLoading, getNodes} from '../../store/selectors/tree.selectors';
+import {State} from '../../store/reducers';
 
 @Component({
   selector: 'app-tree-grid',
@@ -25,27 +23,24 @@ export class TreeGridComponent implements OnInit {
   nodes$: Observable<{[id: number]: Node}>;
   loading$: Observable<boolean>;
 
-  constructor(private store: Store<TreeState>) {
+  constructor(private store: Store<State>) {
   }
 
   getNodes(): Observable<{[id: number]: Node}> {
-    return this.store.select(selectNodesList);
+    return this.store.select(getNodes);
   }
 
   getLoading(): Observable<boolean> {
-    return this.store.select(loading);
+    return this.store.select(getLoading);
   }
 
   openOrCloseChildren(node: Node) {
-      if (node.level === 1) {
-        this.store.dispatch( new SetLoading(true));
-        setTimeout(() => {
-          this.store.dispatch( new GetRepositories(node));
-        }, 3000);
-      } else {
-        this.store.dispatch( new SetLoading(true));
-        this.store.dispatch( new GetCommits(node));
-      }
+    if (node.level === 1) {
+      this.store.dispatch(new GetRepositories(node));
+    } else {
+      this.store.dispatch(new SetLoading(true));
+      this.store.dispatch(new GetCommits(node));
+    }
   }
 
   changePropertyIsOpened(node: Node) {
@@ -57,9 +52,8 @@ export class TreeGridComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch( new SetLoading(true));
+    this.loading$ = this.getLoading();
     this.store.dispatch(new GetUsers());
     this.nodes$ = this.getNodes();
-    this.loading$ = this.getLoading();
   }
 }

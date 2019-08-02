@@ -5,7 +5,6 @@ import { RowGridComponent } from './components/tree-grid/node-tree/row-grid/row-
 import { GitHabService } from './services/githab.service';
 
 import { NodeEffects } from './store/effects/node.effects';
-import { treeReducers } from './store/reducers/tree.reducers';
 
 import { environment } from '../environments/environment';
 import { SvgLoaderComponent } from './components/svg-loader/svg-loader.component';
@@ -17,6 +16,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
+import {reducers} from './store/reducers';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import {EffectsModule} from '@ngrx/effects';
   imports: [
     BrowserModule,
     HttpClientModule,
-    StoreModule.forRoot(treeReducers),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     EffectsModule.forRoot([NodeEffects]),
     AngularSvgIconModule,

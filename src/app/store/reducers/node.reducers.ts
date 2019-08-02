@@ -1,7 +1,7 @@
 import {NodeActions, nodeActions} from '../actions/node.actions';
-import {initialUsersState, NodesState} from '../state/nodes.state';
+import {initialNodesState, NodesState} from '../state/nodes.state';
 
-export const nodesReducers = (state = initialUsersState, action: nodeActions): NodesState => {
+export const nodesReducers = (state = initialNodesState, action: nodeActions): NodesState => {
   switch (action.type) {
     case NodeActions.GetUsersSuccess: {
       return {
@@ -65,7 +65,8 @@ export const nodesReducers = (state = initialUsersState, action: nodeActions): N
     case NodeActions.AddChildUsers: {
       return {
         ...state,
-        nodes: [].concat(Object.entries({...state.nodes,
+        nodes: [].concat(Object.entries({
+          ...state.nodes,
           [action.node.id]: {
             ...action.node,
             child: action.child
@@ -101,4 +102,3 @@ export const nodesReducers = (state = initialUsersState, action: nodeActions): N
       return state;
   }
 };
-

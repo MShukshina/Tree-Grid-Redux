@@ -7,6 +7,12 @@ a:hover {
   text-decoration: underline;
 }
 
+.column-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
 tr {
   display: flex;
   flex-direction: row;
@@ -14,21 +20,8 @@ tr {
   border: 1px solid #ddd;
 }
 
-.column-name {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
 tr:hover td {
   background: #ddd;
-}
-
-button {
-  margin: 0px 10px 0px 0px;
-  height: 20px;
-  width: 20px;
-  padding: 0px 0;
 }
 
 td {
@@ -38,4 +31,11 @@ td {
   flex-direction: row;
   justify-content: flex-start;
   word-break: break-all;
+}
+
+button {
+  margin: 0px 10px 0px 0px;
+  height: 20px;
+  width: 20px;
+  padding: 0px 0;
 }
